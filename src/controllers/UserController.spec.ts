@@ -1,6 +1,6 @@
+import { Request, Response } from 'express'
 import { UserController } from "./UserController";
 import { UserService } from '../services/UserService'
-import { Request } from 'express'
 import { makeMockResponse } from "../__mocks__/mockResponse.mock";
 
 describe('UserController', () => {
@@ -21,5 +21,28 @@ describe('UserController', () => {
         userController.createUser(mockRequest, mockResponse)
         expect(mockResponse.state.status).toBe(201)
         expect(mockResponse.state.json).toMatchObject({ message: 'Usuário criado' })
+    })
+})
+
+
+const mockRequest = {
+    body: {
+        name: 'nath',
+        email: 'nath@test.com'
+    }
+} as Request
+
+const mockResponse = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn()
+} as unknown as Response
+
+describe('UserController', () => {
+    const userController = new UserController()
+
+    it('Deve criar um novo usuário', () => {
+        userController.createUser(mockRequest, mockResponse)
+        expect(mockResponse.status).toHaveBeenCalledWith(201)
+        expect(mockResponse.json)
     })
 })
